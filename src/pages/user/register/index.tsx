@@ -1,12 +1,13 @@
 import {Footer} from '@/components';
 import {LockOutlined, UserOutlined,} from '@ant-design/icons';
 import {LoginForm, ProFormText,} from '@ant-design/pro-components';
-import {Helmet, Link, useModel} from '@umijs/max';
+import {Helmet, history} from '@umijs/max';
 import {App, Tabs} from 'antd';
 import {createStyles} from 'antd-style';
 import React, {useState} from 'react';
 import Settings from '../../../../config/defaultSettings';
-import {userLogin} from "@/services/xiaoxinshu/userController";
+import {userRegister} from "@/services/xiaoxinshu/userController";
+import {Link} from "@@/exports";
 
 const useStyles = createStyles(({token}) => {
   return {
@@ -46,30 +47,24 @@ const useStyles = createStyles(({token}) => {
 
 const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
-  const {initialState, setInitialState} = useModel('@@initialState');
   const {styles} = useStyles();
   const {message} = App.useApp();
-  const handleSubmit = async (values: API.UserLoginRequest) => {
+  const handleSubmit = async (values: API.UserRegisterRequest) => {
     try {
-      // 登录
-      const res = await userLogin({
+      // 注册
+      const res = await userRegister({
         ...values,
       });
       if (res.code === 0) {
-        const defaultLoginSuccessMessage = '登录成功！';
+        const defaultLoginSuccessMessage = '注册成功！';
         message.success(defaultLoginSuccessMessage);
-        // 保存已登录用户信息
-        setInitialState({
-          ...initialState,
-          currentUser: res?.data
-        })
-        const urlParams = new URL(window.location.href).searchParams;
-        window.location.href = urlParams.get('redirect') || '/';
+        // 跳转到登录页面
+        history.push('/user/login')
         return;
       }
       // 如果失败去设置用户错误信息
     } catch (error: any) {
-      const defaultLoginFailureMessage = `登录失败，${error.message}！`;
+      const defaultLoginFailureMessage = `注册失败，${error.message}！`;
       message.error(defaultLoginFailureMessage);
     }
   };
@@ -77,7 +72,7 @@ const Login: React.FC = () => {
     <div className={styles.container}>
       <Helmet>
         <title>
-          {'登录'}
+          {'注册'}
           {Settings.title && ` - ${Settings.title}`}
         </title>
       </Helmet>
@@ -99,7 +94,12 @@ const Login: React.FC = () => {
             autoLogin: true,
           }}
           onFinish={async (values) => {
-            await handleSubmit(values as API.UserLoginRequest);
+            await handleSubmit(values as API.UserRegisterRequest);
+          }}
+          submitter={{
+            searchConfig: {
+              submitText: '注册',
+            },
           }}
         >
           <Tabs
@@ -109,7 +109,7 @@ const Login: React.FC = () => {
             items={[
               {
                 key: 'account',
-                label: '账号密码登录',
+                label: '账号密码注册',
               },
             ]}
           />
@@ -144,16 +144,29 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
+              <ProFormText.Password
+                name="checkPassword"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined/>,
+                }}
+                placeholder={'确认密码:'}
+                rules={[
+                  {
+                    required: true,
+                    message: '确认密码是必填项！',
+                  },
+                ]}
+              />
             </>
           )}
-
           <div
             style={{
               marginBottom: 24,
               textAlign: 'right',
             }}
           >
-            <Link to='/user/register'>新用户注册</Link>
+            <Link to='/user/login'>用户登录</Link>
           </div>
         </LoginForm>
       </div>

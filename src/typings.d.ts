@@ -16,3 +16,10 @@ declare module 'mockjs';
 declare module 'react-fittext';
 
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
+
+/**
+ * 当前登录用户信息
+ */
+interface InitialState {
+  currentUser?: API.LoginUserVo;
+}
