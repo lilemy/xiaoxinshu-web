@@ -1,8 +1,10 @@
 import React, {useRef, useState} from 'react';
 import {ActionType, PageContainer, ProColumns, ProTable} from '@ant-design/pro-components';
-import {Button, Space} from 'antd';
+import {Button, message, Popconfirm, Space, Typography} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
-import {listUserByAdminPage} from "@/services/xiaoxinshu/userController";
+import {deleteUser, listUserByAdminPage} from "@/services/xiaoxinshu/userController";
+import CreateForm from "@/pages/admin/user/components/CreateForm";
+import UpdateForm from "@/pages/admin/user/components/UpdateForm";
 
 const UserTableList: React.FC = () => {
   // 新建窗口的弹窗
@@ -12,6 +14,29 @@ const UserTableList: React.FC = () => {
   const actionRef = useRef<ActionType>(null);
   // 当前选中用户
   const [currentRow, setCurrentRow] = useState<API.UserByAdminVo>();
+
+  /**
+   * @zh-CN 删除用户
+   *
+   * @param user
+   */
+  const handleDelete = async (user: API.UserByAdminVo) => {
+    const hide = message.loading('正在删除');
+    if (!user.id) return true;
+    try {
+      await deleteUser({
+        id: user.id,
+      });
+      hide();
+      message.success('删除成功');
+      actionRef?.current?.reload();
+      return true;
+    } catch (error: any) {
+      hide();
+      message.error('删除失败' + error.message);
+      return false;
+    }
+  };
 
   const columns: ProColumns<API.UserByAdminVo>[] = [
     {
@@ -54,11 +79,15 @@ const UserTableList: React.FC = () => {
       dataIndex: 'userGender',
       valueEnum: {
         0: {
-          text: '男',
-          status: 'Success',
+          text: '未知',
+          status: 'Default',
         },
         1: {
           text: '女',
+          status: 'Success',
+        },
+        2: {
+          text: '男',
           status: 'Warning',
         },
       },
@@ -70,6 +99,7 @@ const UserTableList: React.FC = () => {
       dataIndex: 'userBirthday',
       valueType: 'date',
       hideInSearch: true,
+      width: 150,
     },
     {
       title: '权限',
@@ -96,6 +126,15 @@ const UserTableList: React.FC = () => {
       width: 150,
     },
     {
+      title: '编辑时间',
+      sorter: true,
+      dataIndex: 'editTime',
+      valueType: 'dateTime',
+      hideInSearch: true,
+      hideInForm: true,
+      width: 150,
+    },
+    {
       title: '更新时间',
       sorter: true,
       dataIndex: 'updateTime',
@@ -112,6 +151,33 @@ const UserTableList: React.FC = () => {
       fixed: 'right',
       render: (_, record) => (
         <Space size={'middle'}>
+          <Typography.Link
+            key="config"
+            onClick={() => {
+              setCurrentRow(record);
+              handleUpdateModalOpen(true);
+            }}
+          >
+            修改
+          </Typography.Link>
+          <Popconfirm
+            title={`是否删除用户${record.userName}？`}
+            onConfirm={async () => {
+              await handleDelete(record)
+              actionRef.current?.reload();
+            }}
+            onCancel={() => {
+
+            }}
+            okText="确定"
+            cancelText="取消"
+          >
+            <Typography.Link
+              type="danger"
+            >
+              删除
+            </Typography.Link>
+          </Popconfirm>
         </Space>
       ),
     },
@@ -142,7 +208,7 @@ const UserTableList: React.FC = () => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
           // 从 ProTable 获取分页和搜索条件
-          const { current, pageSize, ...searchParams } = params;
+          const {current, pageSize, ...searchParams} = params;
           const {data, code} = await listUserByAdminPage({
             req: {
               ...searchParams,
@@ -162,6 +228,30 @@ const UserTableList: React.FC = () => {
           };
         }}
         columns={columns}
+      />
+      <CreateForm
+        modalVisible={createModalOpen}
+        columns={columns}
+        onSubmit={() => {
+          handleCreateModalOpen(false);
+          actionRef.current?.reload();
+        }}
+        onCancel={() => {
+          handleCreateModalOpen(false);
+        }}
+      />
+      <UpdateForm
+        modalVisible={updateModalOpen}
+        columns={columns}
+        oldData={currentRow}
+        onSubmit={() => {
+          handleUpdateModalOpen(false);
+          setCurrentRow(undefined);
+          actionRef.current?.reload();
+        }}
+        onCancel={() => {
+          handleUpdateModalOpen(false);
+        }}
       />
     </PageContainer>
   );

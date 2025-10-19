@@ -16,6 +16,20 @@ export async function getUserVo(
   });
 }
 
+/** 删除用户信息（仅管理员） DELETE /user/${param0} */
+export async function deleteUser(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.deleteUserParams,
+  options?: { [key: string]: any }
+) {
+  const { id: param0, ...queryParams } = params;
+  return request<API.BaseResponseBoolean>(`/user/${param0}`, {
+    method: "DELETE",
+    params: { ...queryParams },
+    ...(options || {}),
+  });
+}
+
 /** 获取用户信息（仅管理员） GET /user/byAdmin/${param0} */
 export async function getUserByAdmin(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
@@ -45,6 +59,21 @@ export async function listUserByAdminPage(
       pageQuery: undefined,
       ...params["pageQuery"],
     },
+    ...(options || {}),
+  });
+}
+
+/** 创建用户信息（仅管理员） POST /user/create */
+export async function createUser(
+  body: API.UserCreateRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseLong>("/user/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: body,
     ...(options || {}),
   });
 }
@@ -87,6 +116,21 @@ export async function userRegister(
 ) {
   return request<API.BaseResponseLong>("/user/register", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 更新用户信息（仅管理员） PUT /user/update */
+export async function updateUser(
+  body: API.UserUpdateRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseBoolean>("/user/update", {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },

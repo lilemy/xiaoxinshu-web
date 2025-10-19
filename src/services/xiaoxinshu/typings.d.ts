@@ -49,6 +49,10 @@ declare namespace API {
     message?: string;
   };
 
+  type deleteUserParams = {
+    id: number;
+  };
+
   type getUserByAdminParams = {
     id: number;
   };
@@ -150,6 +154,29 @@ declare namespace API {
     updateTime?: string;
   };
 
+  type UserCreateRequest = {
+    /** 账号 */
+    userAccount: string;
+    /** 用户昵称 */
+    userName?: string;
+    /** 用户头像 */
+    userAvatar?: string;
+    /** 用户简介 */
+    userProfile?: string;
+    /** 用户手机号 */
+    userPhone?: string;
+    /** 用户邮箱 */
+    userEmail?: string;
+    /** 用户性别(0未知 1男 2女) */
+    userGender?: number;
+    /** 用户生日 */
+    userBirthday?: string;
+    /** 用户角色(0用户 1管理员) */
+    userRole?: number;
+    /** 备注 */
+    remark?: string;
+  };
+
   type UserLoginRequest = {
     /** 账号 */
     userAccount: string;
@@ -181,6 +208,31 @@ declare namespace API {
     userPassword: string;
     /** 确认密码 */
     checkPassword: string;
+  };
+
+  type UserUpdateRequest = {
+    /** id */
+    id: number;
+    /** 账号 */
+    userAccount?: string;
+    /** 用户昵称 */
+    userName?: string;
+    /** 用户头像 */
+    userAvatar?: string;
+    /** 用户简介 */
+    userProfile?: string;
+    /** 用户手机号 */
+    userPhone?: string;
+    /** 用户邮箱 */
+    userEmail?: string;
+    /** 用户性别(0未知 1男 2女) */
+    userGender?: number;
+    /** 用户生日 */
+    userBirthday?: string;
+    /** 用户角色(0用户 1管理员) */
+    userRole?: number;
+    /** 备注 */
+    remark?: string;
   };
 
   type UserVo = {
