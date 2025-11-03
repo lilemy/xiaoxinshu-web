@@ -6,7 +6,7 @@ import {App, Tabs} from 'antd';
 import {createStyles} from 'antd-style';
 import React, {useState} from 'react';
 import Settings from '../../../../config/defaultSettings';
-import {userRegister} from "@/services/xiaoxinshu/userController";
+import {userRegister} from "@/services/xiaoxinshu/sysUserController";
 import {Link} from "@@/exports";
 
 const useStyles = createStyles(({token}) => {
@@ -49,7 +49,7 @@ const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
   const {styles} = useStyles();
   const {message} = App.useApp();
-  const handleSubmit = async (values: API.UserRegisterRequest) => {
+  const handleSubmit = async (values: API.SysUserRegisterRequest) => {
     try {
       // 注册
       const res = await userRegister({
@@ -94,7 +94,7 @@ const Login: React.FC = () => {
             autoLogin: true,
           }}
           onFinish={async (values) => {
-            await handleSubmit(values as API.UserRegisterRequest);
+            await handleSubmit(values as API.SysUserRegisterRequest);
           }}
           submitter={{
             searchConfig: {

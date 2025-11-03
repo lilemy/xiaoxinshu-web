@@ -7,7 +7,7 @@ import React, {useCallback} from 'react';
 import {flushSync} from 'react-dom';
 import {Link} from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
-import {userLogout} from "@/services/xiaoxinshu/userController";
+import {userLogout} from "@/services/xiaoxinshu/sysUserController";
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;

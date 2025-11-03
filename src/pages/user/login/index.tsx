@@ -6,7 +6,7 @@ import {App, Tabs} from 'antd';
 import {createStyles} from 'antd-style';
 import React, {useState} from 'react';
 import Settings from '../../../../config/defaultSettings';
-import {userLogin} from "@/services/xiaoxinshu/userController";
+import {userLogin} from "@/services/xiaoxinshu/sysUserController";
 
 const useStyles = createStyles(({token}) => {
   return {
@@ -49,7 +49,7 @@ const Login: React.FC = () => {
   const {initialState, setInitialState} = useModel('@@initialState');
   const {styles} = useStyles();
   const {message} = App.useApp();
-  const handleSubmit = async (values: API.UserLoginRequest) => {
+  const handleSubmit = async (values: API.SysUserLoginRequest) => {
     try {
       // 登录
       const res = await userLogin({
@@ -99,7 +99,7 @@ const Login: React.FC = () => {
             autoLogin: true,
           }}
           onFinish={async (values) => {
-            await handleSubmit(values as API.UserLoginRequest);
+            await handleSubmit(values as API.SysUserLoginRequest);
           }}
         >
           <Tabs

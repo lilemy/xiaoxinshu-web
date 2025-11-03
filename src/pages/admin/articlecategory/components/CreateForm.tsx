@@ -1,23 +1,23 @@
 import {ProColumns, ProTable} from '@ant-design/pro-components';
 import {message, Modal} from 'antd';
 import React from 'react';
-import {createUser} from "@/services/xiaoxinshu/sysUserController";
+import {createArticleCategory} from "@/services/xiaoxinshu/artArticleCategoryController";
 
 interface Props {
   modalVisible: boolean;
-  columns: ProColumns<API.SysUserByAdminVo>[];
+  columns: ProColumns<API.ArtArticleCategoryVo>[];
   onSubmit: () => void;
   onCancel: () => void;
 }
 
 /**
- * @zh-CN 创建用户
+ * @zh-CN 创建文章分类
  * @param fields
  */
-const handleCreate = async (fields: API.SysUserCreateRequest) => {
+const handleCreate = async (fields: API.ArtArticleCategoryCreateRequest) => {
   const hide = message.loading('正在创建');
   try {
-    await createUser({
+    await createArticleCategory({
       ...fields,
     });
     hide();
@@ -35,11 +35,11 @@ const CreatForm: React.FC<Props> = (props) => {
 
   return (
     <Modal title={'新建'} open={modalVisible} destroyOnHidden footer={null} onCancel={onCancel}>
-      <ProTable<API.SysUserByAdminVo, API.PageSysUserByAdminVo>
+      <ProTable<API.ArtArticleCategoryVo, API.PageArtArticleCategoryVo>
         columns={columns}
         type="form"
         onSubmit={async (value) => {
-          const success = await handleCreate(value as API.SysUserCreateRequest);
+          const success = await handleCreate(value as API.ArtArticleCategoryCreateRequest);
           if (success) {
             onSubmit?.();
           }

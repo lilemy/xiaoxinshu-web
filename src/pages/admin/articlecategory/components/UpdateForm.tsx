@@ -1,12 +1,12 @@
 import {ProColumns, ProTable} from '@ant-design/pro-components';
 import {message, Modal} from 'antd';
 import React from 'react';
-import {updateUser} from "@/services/xiaoxinshu/sysUserController";
+import {updateArticleCategory} from "@/services/xiaoxinshu/artArticleCategoryController";
 
 interface Props {
-  oldData?: API.SysUserByAdminVo;
+  oldData?: API.ArtArticleCategoryVo;
   modalVisible: boolean;
-  columns: ProColumns<API.SysUserByAdminVo>[];
+  columns: ProColumns<API.ArtArticleCategoryVo>[];
   onSubmit: () => void;
   onCancel: () => void;
 }
@@ -16,10 +16,10 @@ interface Props {
  *
  * @param fields
  */
-const handleUpdate = async (fields: API.SysUserUpdateRequest) => {
+const handleUpdate = async (fields: API.ArtArticleCategoryUpdateRequest) => {
   const hide = message.loading('正在更新');
   try {
-    await updateUser(fields);
+    await updateArticleCategory(fields);
     hide();
     message.success('更新成功');
     return true;
@@ -39,7 +39,7 @@ const UpdateForm: React.FC<Props> = (props) => {
 
   return (
     <Modal title={'更新'} open={modalVisible} destroyOnHidden footer={null} onCancel={onCancel}>
-      <ProTable<API.SysUserByAdminVo, API.PageSysUserByAdminVo>
+      <ProTable<API.ArtArticleCategoryVo, API.PageArtArticleCategoryVo>
         columns={columns}
         form={{
           initialValues: oldData,

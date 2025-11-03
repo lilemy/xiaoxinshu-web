@@ -2,30 +2,30 @@ import React, {useRef, useState} from 'react';
 import {ActionType, PageContainer, ProColumns, ProTable} from '@ant-design/pro-components';
 import {Button, message, Popconfirm, Space, Typography} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
-import CreateForm from "@/pages/admin/user/components/CreateForm";
-import UpdateForm from "@/pages/admin/user/components/UpdateForm";
-import {deleteUser, listUserByAdminPage} from "@/services/xiaoxinshu/sysUserController";
+import CreateForm from "@/pages/admin/articlecategory/components/CreateForm";
+import UpdateForm from "@/pages/admin/articlecategory/components/UpdateForm";
+import {deleteArticleCategory, listArticleCategoryPage} from "@/services/xiaoxinshu/artArticleCategoryController";
 
-const SysUserTableList: React.FC = () => {
+const ArtArticleCategoryTableList: React.FC = () => {
   // 新建窗口的弹窗
   const [createModalOpen, handleCreateModalOpen] = useState<boolean>(false);
   // 更新窗口的弹窗
   const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
   const actionRef = useRef<ActionType>(null);
-  // 当前选中用户
-  const [currentRow, setCurrentRow] = useState<API.SysUserByAdminVo>();
+  // 当前选中文章分类
+  const [currentRow, setCurrentRow] = useState<API.ArtArticleCategoryVo>();
 
   /**
-   * @zh-CN 删除用户
+   * @zh-CN 删除文章分类
    *
-   * @param user
+   * @param articleCategory
    */
-  const handleDelete = async (user: API.SysUserByAdminVo) => {
+  const handleDelete = async (articleCategory: API.ArtArticleCategoryVo) => {
     const hide = message.loading('正在删除');
-    if (!user.id) return true;
+    if (!articleCategory.id) return true;
     try {
-      await deleteUser({
-        id: user.id,
+      await deleteArticleCategory({
+        id: articleCategory.id,
       });
       hide();
       message.success('删除成功');
@@ -38,83 +38,17 @@ const SysUserTableList: React.FC = () => {
     }
   };
 
-  const columns: ProColumns<API.SysUserByAdminVo>[] = [
+  const columns: ProColumns<API.ArtArticleCategoryVo>[] = [
     {
-      title: '账号',
-      dataIndex: 'userAccount',
+      title: '分类名称',
+      dataIndex: 'name',
       valueType: 'text',
     },
     {
-      title: '用户名',
-      dataIndex: 'userName',
+      title: '排序',
+      dataIndex: 'sort',
       valueType: 'text',
-    },
-    {
-      title: '头像',
-      dataIndex: 'userAvatar',
-      valueType: 'image',
-      fieldProps: {
-        width: 64,
-      },
       hideInSearch: true,
-      width: 80,
-    },
-    {
-      title: '简介',
-      dataIndex: 'userProfile',
-      valueType: 'textarea',
-    },
-    {
-      title: '手机号码',
-      dataIndex: 'userPhone',
-      valueType: 'text',
-    },
-    {
-      title: '邮箱',
-      dataIndex: 'userEmail',
-      valueType: 'text',
-    },
-    {
-      title: '性别',
-      dataIndex: 'userGender',
-      valueEnum: {
-        0: {
-          text: '未知',
-          status: 'Default',
-        },
-        1: {
-          text: '女',
-          status: 'Success',
-        },
-        2: {
-          text: '男',
-          status: 'Warning',
-        },
-      },
-      width: 100,
-    },
-    {
-      title: '用户生日',
-      sorter: true,
-      dataIndex: 'userBirthday',
-      valueType: 'date',
-      hideInSearch: true,
-      width: 150,
-    },
-    {
-      title: '权限',
-      dataIndex: 'userRole',
-      valueEnum: {
-        0: {
-          text: '用户',
-          status: 'Default',
-        },
-        1: {
-          text: '管理员',
-          status: 'Success',
-        },
-      },
-      width: 100,
     },
     {
       title: '创建时间',
@@ -123,16 +57,6 @@ const SysUserTableList: React.FC = () => {
       valueType: 'dateTime',
       hideInSearch: true,
       hideInForm: true,
-      width: 150,
-    },
-    {
-      title: '编辑时间',
-      sorter: true,
-      dataIndex: 'editTime',
-      valueType: 'dateTime',
-      hideInSearch: true,
-      hideInForm: true,
-      width: 150,
     },
     {
       title: '更新时间',
@@ -141,13 +65,11 @@ const SysUserTableList: React.FC = () => {
       valueType: 'dateTime',
       hideInSearch: true,
       hideInForm: true,
-      width: 150,
     },
     {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
-      width: 100,
       fixed: 'right',
       render: (_, record) => (
         <Space size={'middle'}>
@@ -161,7 +83,7 @@ const SysUserTableList: React.FC = () => {
             修改
           </Typography.Link>
           <Popconfirm
-            title={`是否删除用户-${record.userName}？`}
+            title={`是否删除文章分类-${record.name}？`}
             onConfirm={async () => {
               await handleDelete(record)
               actionRef.current?.reload();
@@ -185,8 +107,8 @@ const SysUserTableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<API.SysUserByAdminVo, API.PageSysUserByAdminVo>
-        headerTitle={'用户信息'}
+      <ProTable<API.ArtArticleCategoryVo, API.PageArtArticleCategoryVo>
+        headerTitle={'文章分类信息'}
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -209,7 +131,7 @@ const SysUserTableList: React.FC = () => {
           const sortOrder = sort?.[sortField] ?? undefined;
           // 从 ProTable 获取分页和搜索条件
           const {current, pageSize, ...searchParams} = params;
-          const {data, code} = await listUserByAdminPage({
+          const {data, code} = await listArticleCategoryPage({
             req: {
               ...searchParams,
               ...filter,
@@ -220,7 +142,7 @@ const SysUserTableList: React.FC = () => {
               sortField,
               sortOrder,
             },
-          } as API.listUserByAdminPageParams);
+          } as API.listArticleCategoryPageParams);
           return {
             success: code === 0,
             data: data?.records || [],
@@ -256,4 +178,4 @@ const SysUserTableList: React.FC = () => {
     </PageContainer>
   );
 };
-export default SysUserTableList;
+export default ArtArticleCategoryTableList;

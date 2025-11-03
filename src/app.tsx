@@ -4,7 +4,7 @@ import type {RunTimeLayoutConfig} from '@umijs/max';
 import {history} from '@umijs/max';
 import {requestConfig} from './requestConfig';
 import defaultSettings from "../config/defaultSettings";
-import {getLoginUser} from "@/services/xiaoxinshu/userController";
+import {getLoginUser} from "@/services/xiaoxinshu/sysUserController";
 import {message} from "antd";
 
 const isDev = process.env.NODE_ENV === 'development';
