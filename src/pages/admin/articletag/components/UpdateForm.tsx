@@ -1,25 +1,25 @@
 import {ProColumns, ProTable} from '@ant-design/pro-components';
 import {message, Modal} from 'antd';
 import React from 'react';
-import {updateArticleCategory} from "@/services/xiaoxinshu/artArticleCategoryController";
+import {updateArticleTag} from "@/services/xiaoxinshu/artArticleTagController";
 
 interface Props {
-  oldData?: API.ArtArticleCategoryVo;
+  oldData?: API.ArtArticleTagVo;
   modalVisible: boolean;
-  columns: ProColumns<API.ArtArticleCategoryVo>[];
+  columns: ProColumns<API.ArtArticleTagVo>[];
   onSubmit: () => void;
   onCancel: () => void;
 }
 
 /**
- * @zh-CN 更新文章分类
+ * @zh-CN 更新文章标签
  *
  * @param fields
  */
-const handleUpdate = async (fields: API.ArtArticleCategoryUpdateRequest) => {
+const handleUpdate = async (fields: API.ArtArticleTagUpdateRequest) => {
   const hide = message.loading('正在更新');
   try {
-    await updateArticleCategory(fields);
+    await updateArticleTag(fields);
     hide();
     message.success('更新成功');
     return true;
@@ -39,7 +39,7 @@ const UpdateForm: React.FC<Props> = (props) => {
 
   return (
     <Modal title={'更新'} open={modalVisible} destroyOnHidden footer={null} onCancel={onCancel}>
-      <ProTable<API.ArtArticleCategoryVo, API.PageArtArticleCategoryVo>
+      <ProTable<API.ArtArticleTagVo, API.PageArtArticleTagVo>
         columns={columns}
         form={{
           initialValues: oldData,
@@ -49,7 +49,7 @@ const UpdateForm: React.FC<Props> = (props) => {
           const success = await handleUpdate({
             ...values,
             id: oldData?.id ?? 0,
-          });
+          } as API.ArtArticleTagUpdateRequest);
           if (success) {
             onSubmit?.();
           }

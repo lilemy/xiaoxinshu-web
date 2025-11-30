@@ -3,8 +3,11 @@
 // API 更新时间：
 // API 唯一标识：
 import * as artArticleCategoryController from "./artArticleCategoryController";
+import * as artArticleTagController from "./artArticleTagController";
 import * as sysUserController from "./sysUserController";
+
 export default {
   sysUserController,
+  artArticleTagController,
   artArticleCategoryController,
 };

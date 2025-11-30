@@ -33,10 +33,46 @@ declare namespace API {
     updateTime?: string;
   };
 
+  type ArtArticleTagCreateRequest = {
+    /** 标签名称 */
+    name: string;
+  };
+
+  type ArtArticleTagQueryRequest = {
+    /** 标签名称 */
+    name?: string;
+  };
+
+  type ArtArticleTagUpdateRequest = {
+    /** id */
+    id: number;
+    /** 标签名称 */
+    name: string;
+  };
+
+  type ArtArticleTagVo = {
+    /** id */
+    id?: number;
+    /** 标签名称 */
+    name?: string;
+    /** 创建时间 */
+    createTime?: string;
+    /** 更新时间 */
+    updateTime?: string;
+  };
+
   type BaseResponseArtArticleCategoryVo = {
     /** 响应状态码 */
     code?: number;
     data?: ArtArticleCategoryVo;
+    /** 响应信息 */
+    message?: string;
+  };
+
+  type BaseResponseArtArticleTagVo = {
+    /** 响应状态码 */
+    code?: number;
+    data?: ArtArticleTagVo;
     /** 响应信息 */
     message?: string;
   };
@@ -63,6 +99,14 @@ declare namespace API {
     /** 响应状态码 */
     code?: number;
     data?: PageArtArticleCategoryVo;
+    /** 响应信息 */
+    message?: string;
+  };
+
+  type BaseResponsePageArtArticleTagVo = {
+    /** 响应状态码 */
+    code?: number;
+    data?: PageArtArticleTagVo;
     /** 响应信息 */
     message?: string;
   };
@@ -103,11 +147,19 @@ declare namespace API {
     id: number;
   };
 
+  type deleteArticleTagParams = {
+    id: number;
+  };
+
   type deleteUserParams = {
     id: number;
   };
 
   type getArticleCategoryParams = {
+    id: number;
+  };
+
+  type getArticleTagParams = {
     id: number;
   };
 
@@ -121,6 +173,11 @@ declare namespace API {
 
   type listArticleCategoryPageParams = {
     req: ArtArticleCategoryQueryRequest;
+    pageQuery: PageQuery;
+  };
+
+  type listArticleTagPageParams = {
+    req: ArtArticleTagQueryRequest;
     pageQuery: PageQuery;
   };
 
@@ -142,6 +199,20 @@ declare namespace API {
     orders?: OrderItem[];
     optimizeCountSql?: PageArtArticleCategoryVo;
     searchCount?: PageArtArticleCategoryVo;
+    optimizeJoinOfCountSql?: boolean;
+    maxLimit?: number;
+    countId?: string;
+    pages?: number;
+  };
+
+  type PageArtArticleTagVo = {
+    records?: ArtArticleTagVo[];
+    total?: number;
+    size?: number;
+    current?: number;
+    orders?: OrderItem[];
+    optimizeCountSql?: PageArtArticleTagVo;
+    searchCount?: PageArtArticleTagVo;
     optimizeJoinOfCountSql?: boolean;
     maxLimit?: number;
     countId?: string;
