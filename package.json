@@ -1,12 +1,11 @@
 {
-  "name": "ant-design-pro",
+  "name": "xiaoxinshu",
   "version": "6.0.0",
   "private": true,
-  "description": "An out-of-box UI solution for enterprise applications",
-  "repository": "git@github.com:ant-design/ant-design-pro.git",
+  "description": "小新书-一个分享和探索编程知识的地方",
+  "repository": "git@github.com:lilemy/xiaoxinshu-web.git",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 max build",
-    "biome:lint": "npx @biomejs/biome lint",
     "build": "max build",
     "deploy": "npm run build && npm run gh-pages",
     "dev": "npm run start:dev",
@@ -28,44 +27,66 @@
     "defaults"
   ],
   "dependencies": {
-    "@ant-design/icons": "^5.6.1",
-    "@ant-design/pro-components": "^2.7.19",
-    "@ant-design/v5-patch-for-react-19": "^1.0.3",
-    "antd": "^5.25.4",
+    "@ant-design/icons": "^6.1.0",
+    "@ant-design/pro-components": "^2.8.9",
+    "antd": "^6.0.0",
     "antd-style": "^3.7.0",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.13",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^19.1.2",
+    "react-dom": "^19.1.2"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^3.3.0",
-    "@biomejs/biome": "^2.0.6",
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.0.1",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@types/express": "^5.0.3",
-    "@types/lodash": "^4.17.10",
-    "@types/node": "^24.0.10",
-    "@types/react": "^19.1.5",
-    "@types/react-dom": "^19.1.5",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "@types/react-helmet": "^6.1.11",
-    "@umijs/max": "^4.3.24",
-    "add": "^2.0.6",
-    "cross-env": "^7.0.3",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-unicorn": "^61.0.2",
-    "express": "^4.21.1",
+    "@umijs/lint": "^4.6.13",
+    "@umijs/max": "^4.6.13",
+    "cross-env": "^10.0.0",
+    "express": "^5.2.0",
     "gh-pages": "^6.1.1",
     "lint-staged": "^16.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "umi-presets-pro": "^2.0.3",
     "umi-serve": "^1.9.11",
-    "yarn": "^1.22.22"
+    "@biomejs/biome": "^2.1.1",
+    "@types/node": "^25.0.3"
   },
   "engines": {
     "node": ">=20.0.0"
+  },
+  "create-umi": {
+    "ignoreScript": [
+      "docker*",
+      "functions*",
+      "site",
+      "generateMock"
+    ],
+    "ignoreDependencies": [
+      "netlify*",
+      "serverless"
+    ],
+    "ignore": [
+      ".dockerignore",
+      ".git",
+      ".github",
+      ".gitpod.yml",
+      "CODE_OF_CONDUCT.md",
+      "Dockerfile",
+      "Dockerfile.*",
+      "lambda",
+      "LICENSE",
+      "netlify.toml",
+      "README.*.md",
+      "azure-pipelines.yml",
+      "docker",
+      "CNAME",
+      "create-umi"
+    ]
   }
 }

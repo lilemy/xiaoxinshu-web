@@ -1,5 +1,4 @@
 import {AvatarDropdown, Footer} from '@/components';
-import '@ant-design/v5-patch-for-react-19';
 import type {RunTimeLayoutConfig} from '@umijs/max';
 import {history} from '@umijs/max';
 import {requestConfig} from './requestConfig';
