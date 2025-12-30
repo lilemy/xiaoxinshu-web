@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import {request} from "@umijs/max";
+import { request } from "@umijs/max";
 
 /** 获取用户信息 GET /sys/user/${param0} */
 export async function getUserVo(
@@ -8,10 +8,10 @@ export async function getUserVo(
   params: API.getUserVoParams,
   options?: { [key: string]: any }
 ) {
-  const {id: param0, ...queryParams} = params;
+  const { id: param0, ...queryParams } = params;
   return request<API.BaseResponseSysUserVo>(`/sys/user/${param0}`, {
     method: "GET",
-    params: {...queryParams},
+    params: { ...queryParams },
     ...(options || {}),
   });
 }
@@ -22,10 +22,10 @@ export async function deleteUser(
   params: API.deleteUserParams,
   options?: { [key: string]: any }
 ) {
-  const {id: param0, ...queryParams} = params;
+  const { id: param0, ...queryParams } = params;
   return request<API.BaseResponseBoolean>(`/sys/user/${param0}`, {
     method: "DELETE",
-    params: {...queryParams},
+    params: { ...queryParams },
     ...(options || {}),
   });
 }
@@ -36,12 +36,12 @@ export async function getUserByAdmin(
   params: API.getUserByAdminParams,
   options?: { [key: string]: any }
 ) {
-  const {id: param0, ...queryParams} = params;
+  const { id: param0, ...queryParams } = params;
   return request<API.BaseResponseSysUserByAdminVo>(
     `/sys/user/byAdmin/${param0}`,
     {
       method: "GET",
-      params: {...queryParams},
+      params: { ...queryParams },
       ...(options || {}),
     }
   );

@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import {request} from "@umijs/max";
+import { request } from "@umijs/max";
 
 /** 获取文章分类信息 GET /art/article/category/${param0} */
 export async function getArticleCategory(
@@ -8,12 +8,12 @@ export async function getArticleCategory(
   params: API.getArticleCategoryParams,
   options?: { [key: string]: any }
 ) {
-  const {id: param0, ...queryParams} = params;
+  const { id: param0, ...queryParams } = params;
   return request<API.BaseResponseArtArticleCategoryVo>(
     `/art/article/category/${param0}`,
     {
       method: "GET",
-      params: {...queryParams},
+      params: { ...queryParams },
       ...(options || {}),
     }
   );
@@ -25,10 +25,10 @@ export async function deleteArticleCategory(
   params: API.deleteArticleCategoryParams,
   options?: { [key: string]: any }
 ) {
-  const {id: param0, ...queryParams} = params;
+  const { id: param0, ...queryParams } = params;
   return request<API.BaseResponseBoolean>(`/art/article/category/${param0}`, {
     method: "DELETE",
-    params: {...queryParams},
+    params: { ...queryParams },
     ...(options || {}),
   });
 }
@@ -46,6 +46,26 @@ export async function createArticleCategory(
     data: body,
     ...(options || {}),
   });
+}
+
+/** 获取文章分类信息列表 GET /art/article/category/list */
+export async function listArticleCategory(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.listArticleCategoryParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseListArtArticleCategoryVo>(
+    "/art/article/category/list",
+    {
+      method: "GET",
+      params: {
+        ...params,
+        req: undefined,
+        ...params["req"],
+      },
+      ...(options || {}),
+    }
+  );
 }
 
 /** 分页获取文章分类信息 GET /art/article/category/page */

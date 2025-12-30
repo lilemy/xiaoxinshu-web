@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import {request} from "@umijs/max";
+import { request } from "@umijs/max";
 
 /** 获取文章标签信息 GET /art/article/tag/${param0} */
 export async function getArticleTag(
@@ -8,12 +8,12 @@ export async function getArticleTag(
   params: API.getArticleTagParams,
   options?: { [key: string]: any }
 ) {
-  const {id: param0, ...queryParams} = params;
+  const { id: param0, ...queryParams } = params;
   return request<API.BaseResponseArtArticleTagVo>(
     `/art/article/tag/${param0}`,
     {
       method: "GET",
-      params: {...queryParams},
+      params: { ...queryParams },
       ...(options || {}),
     }
   );
@@ -25,10 +25,10 @@ export async function deleteArticleTag(
   params: API.deleteArticleTagParams,
   options?: { [key: string]: any }
 ) {
-  const {id: param0, ...queryParams} = params;
+  const { id: param0, ...queryParams } = params;
   return request<API.BaseResponseBoolean>(`/art/article/tag/${param0}`, {
     method: "DELETE",
-    params: {...queryParams},
+    params: { ...queryParams },
     ...(options || {}),
   });
 }
@@ -44,6 +44,23 @@ export async function createArticleTag(
       "Content-Type": "application/json",
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** 获取文章标签信息列表 GET /art/article/tag/list */
+export async function listArticleTag(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.listArticleTagParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseListArtArticleTagVo>("/art/article/tag/list", {
+    method: "GET",
+    params: {
+      ...params,
+      req: undefined,
+      ...params["req"],
+    },
     ...(options || {}),
   });
 }

@@ -1,4 +1,100 @@
 declare namespace API {
+  type ArtArticleArchiveDetailVo = {
+    /** id */
+    id?: number;
+    /** 文章标题 */
+    title?: string;
+    /** 文章封面 */
+    cover?: string;
+    /** 文章摘要 */
+    summary?: string;
+    /** 创建时间 */
+    createTime?: string;
+    /** 发布的月份 */
+    createMonth?: {
+      year?: number;
+      month?:
+        | "JANUARY"
+        | "FEBRUARY"
+        | "MARCH"
+        | "APRIL"
+        | "MAY"
+        | "JUNE"
+        | "JULY"
+        | "AUGUST"
+        | "SEPTEMBER"
+        | "OCTOBER"
+        | "NOVEMBER"
+        | "DECEMBER";
+      monthValue?: number;
+      leapYear?: boolean;
+    };
+  };
+
+  type ArtArticleArchiveVo = {
+    /** 归档的月份 */
+    month?: {
+      year?: number;
+      month?:
+        | "JANUARY"
+        | "FEBRUARY"
+        | "MARCH"
+        | "APRIL"
+        | "MAY"
+        | "JUNE"
+        | "JULY"
+        | "AUGUST"
+        | "SEPTEMBER"
+        | "OCTOBER"
+        | "NOVEMBER"
+        | "DECEMBER";
+      monthValue?: number;
+      leapYear?: boolean;
+    };
+    /** 归档的文章列表 */
+    detailList?: ArtArticleArchiveDetailVo[];
+  };
+
+  type ArtArticleByCategoryQueryRequest = {
+    /** 分类 id */
+    categoryId: number;
+  };
+
+  type ArtArticleByCategoryVo = {
+    /** id */
+    id?: number;
+    /** 文章标题 */
+    title?: string;
+    /** 文章封面 */
+    cover?: string;
+    /** 文章摘要 */
+    summary?: string;
+    /** 创建时间 */
+    createTime?: string;
+    /** 标签列表 */
+    tagList?: ArtArticleTagVo[];
+  };
+
+  type ArtArticleByTagQueryRequest = {
+    /** 标签 id */
+    tagId: number;
+  };
+
+  type ArtArticleByTagVo = {
+    /** id */
+    id?: number;
+    /** 文章标题 */
+    title?: string;
+    /** 文章封面 */
+    cover?: string;
+    /** 文章摘要 */
+    summary?: string;
+    /** 创建时间 */
+    createTime?: string;
+    /** 分类列表 */
+    categoryList?: ArtArticleCategoryVo[];
+  };
+
   type ArtArticleCategoryCreateRequest = {
     /** 分类名称 */
     name: string;
@@ -33,6 +129,32 @@ declare namespace API {
     updateTime?: string;
   };
 
+  type ArtArticleCreateRequest = {
+    /** 文章标题 */
+    title: string;
+    /** 文章封面 */
+    cover?: string;
+    /** 文章摘要 */
+    summary?: string;
+    /** 文章内容 */
+    content: string;
+    /** 文章分类 id */
+    categoryIds: number[];
+    /** 文章标签 */
+    tags: string[];
+  };
+
+  type ArtArticleQueryRequest = {
+    /** 文章标题 */
+    title?: string;
+    /** 文章摘要 */
+    summary?: string;
+    /** 分类 id 列表 */
+    categoryIdList?: number[];
+    /** 标签 id 列表 */
+    tagIdList?: number[];
+  };
+
   type ArtArticleTagCreateRequest = {
     /** 标签名称 */
     name: string;
@@ -61,6 +183,54 @@ declare namespace API {
     updateTime?: string;
   };
 
+  type ArtArticleUpdateRequest = {
+    /** id */
+    id: number;
+    /** 文章标题 */
+    title: string;
+    /** 文章封面 */
+    cover?: string;
+    /** 文章摘要 */
+    summary?: string;
+    /** 文章内容 */
+    content: string;
+    /** 文章分类 id */
+    categoryIds: number[];
+    /** 文章标签 */
+    tags: string[];
+  };
+
+  type ArtArticleVo = {
+    /** id */
+    id?: number;
+    /** 文章标题 */
+    title?: string;
+    /** 文章封面 */
+    cover?: string;
+    /** 文章摘要 */
+    summary?: string;
+    /** 文章内容 */
+    content?: string;
+    /** 用户 id */
+    userId?: number;
+    /** 编辑时间 */
+    editTime?: string;
+    /** 创建时间 */
+    createTime?: string;
+    /** 更新时间 */
+    updateTime?: string;
+    /** 阅读次数 */
+    readNum?: number;
+    /** 分类列表 */
+    categoryList?: ArtArticleCategoryVo[];
+    /** 分类 id 列表 */
+    categoryIdList?: number[];
+    /** 标签列表 */
+    tagList?: ArtArticleTagVo[];
+    /** 标签 id 列表 */
+    tagIdList?: number[];
+  };
+
   type BaseResponseArtArticleCategoryVo = {
     /** 响应状态码 */
     code?: number;
@@ -77,6 +247,14 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseArtArticleVo = {
+    /** 响应状态码 */
+    code?: number;
+    data?: ArtArticleVo;
+    /** 响应信息 */
+    message?: string;
+  };
+
   type BaseResponseBoolean = {
     /** 响应状态码 */
     code?: number;
@@ -86,11 +264,53 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseListArtArticleCategoryVo = {
+    /** 响应状态码 */
+    code?: number;
+    /** 响应数据 */
+    data?: ArtArticleCategoryVo[];
+    /** 响应信息 */
+    message?: string;
+  };
+
+  type BaseResponseListArtArticleTagVo = {
+    /** 响应状态码 */
+    code?: number;
+    /** 响应数据 */
+    data?: ArtArticleTagVo[];
+    /** 响应信息 */
+    message?: string;
+  };
+
   type BaseResponseLong = {
     /** 响应状态码 */
     code?: number;
     /** 响应数据 */
     data?: number;
+    /** 响应信息 */
+    message?: string;
+  };
+
+  type BaseResponsePageArtArticleArchiveVo = {
+    /** 响应状态码 */
+    code?: number;
+    data?: PageArtArticleArchiveVo;
+    /** 响应信息 */
+    message?: string;
+  };
+
+  type BaseResponsePageArtArticleByCategoryVo = {
+    /** 响应状态码 */
+    code?: number;
+    data?: PageArtArticleByCategoryVo;
+    /** 响应信息 */
+    message?: string;
+  };
+
+  type BaseResponsePageArtArticleByTagVo = {
+    /** 响应状态码 */
+    code?: number;
+    data?: PageArtArticleByTagVo;
     /** 响应信息 */
     message?: string;
   };
@@ -107,6 +327,14 @@ declare namespace API {
     /** 响应状态码 */
     code?: number;
     data?: PageArtArticleTagVo;
+    /** 响应信息 */
+    message?: string;
+  };
+
+  type BaseResponsePageArtArticleVo = {
+    /** 响应状态码 */
+    code?: number;
+    data?: PageArtArticleVo;
     /** 响应信息 */
     message?: string;
   };
@@ -147,6 +375,10 @@ declare namespace API {
     id: number;
   };
 
+  type deleteArticleParams = {
+    id: number;
+  };
+
   type deleteArticleTagParams = {
     id: number;
   };
@@ -156,6 +388,10 @@ declare namespace API {
   };
 
   type getArticleCategoryParams = {
+    id: number;
+  };
+
+  type getArticleParams = {
     id: number;
   };
 
@@ -171,14 +407,42 @@ declare namespace API {
     id: number;
   };
 
+  type listArticleArchivePageParams = {
+    req: ArtArticleQueryRequest;
+    pageQuery: PageQuery;
+  };
+
+  type listArticleByCategoryPageParams = {
+    req: ArtArticleByCategoryQueryRequest;
+    pageQuery: PageQuery;
+  };
+
+  type listArticleByTagPageParams = {
+    req: ArtArticleByTagQueryRequest;
+    pageQuery: PageQuery;
+  };
+
   type listArticleCategoryPageParams = {
     req: ArtArticleCategoryQueryRequest;
+    pageQuery: PageQuery;
+  };
+
+  type listArticleCategoryParams = {
+    req: ArtArticleCategoryQueryRequest;
+  };
+
+  type listArticlePageParams = {
+    req: ArtArticleQueryRequest;
     pageQuery: PageQuery;
   };
 
   type listArticleTagPageParams = {
     req: ArtArticleTagQueryRequest;
     pageQuery: PageQuery;
+  };
+
+  type listArticleTagParams = {
+    req: ArtArticleTagQueryRequest;
   };
 
   type listUserByAdminPageParams = {
@@ -189,6 +453,48 @@ declare namespace API {
   type OrderItem = {
     column?: string;
     asc?: boolean;
+  };
+
+  type PageArtArticleArchiveVo = {
+    records?: ArtArticleArchiveVo[];
+    total?: number;
+    size?: number;
+    current?: number;
+    orders?: OrderItem[];
+    optimizeCountSql?: PageArtArticleArchiveVo;
+    searchCount?: PageArtArticleArchiveVo;
+    optimizeJoinOfCountSql?: boolean;
+    maxLimit?: number;
+    countId?: string;
+    pages?: number;
+  };
+
+  type PageArtArticleByCategoryVo = {
+    records?: ArtArticleByCategoryVo[];
+    total?: number;
+    size?: number;
+    current?: number;
+    orders?: OrderItem[];
+    optimizeCountSql?: PageArtArticleByCategoryVo;
+    searchCount?: PageArtArticleByCategoryVo;
+    optimizeJoinOfCountSql?: boolean;
+    maxLimit?: number;
+    countId?: string;
+    pages?: number;
+  };
+
+  type PageArtArticleByTagVo = {
+    records?: ArtArticleByTagVo[];
+    total?: number;
+    size?: number;
+    current?: number;
+    orders?: OrderItem[];
+    optimizeCountSql?: PageArtArticleByTagVo;
+    searchCount?: PageArtArticleByTagVo;
+    optimizeJoinOfCountSql?: boolean;
+    maxLimit?: number;
+    countId?: string;
+    pages?: number;
   };
 
   type PageArtArticleCategoryVo = {
@@ -213,6 +519,20 @@ declare namespace API {
     orders?: OrderItem[];
     optimizeCountSql?: PageArtArticleTagVo;
     searchCount?: PageArtArticleTagVo;
+    optimizeJoinOfCountSql?: boolean;
+    maxLimit?: number;
+    countId?: string;
+    pages?: number;
+  };
+
+  type PageArtArticleVo = {
+    records?: ArtArticleVo[];
+    total?: number;
+    size?: number;
+    current?: number;
+    orders?: OrderItem[];
+    optimizeCountSql?: PageArtArticleVo;
+    searchCount?: PageArtArticleVo;
     optimizeJoinOfCountSql?: boolean;
     maxLimit?: number;
     countId?: string;

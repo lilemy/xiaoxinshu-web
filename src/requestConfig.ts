@@ -1,6 +1,7 @@
 ﻿import type {RequestOptions} from '@@/plugin-request/request';
 import type {RequestConfig} from '@umijs/max';
 import {BACKEND_HOST_LOCAL, BACKEND_HOST_PROD} from "@/constants";
+import qs from 'qs';
 
 // 与后端约定的响应数据格式
 interface ResponseStructure {
@@ -19,6 +20,13 @@ const isDev = process.env.NODE_ENV === 'development';
 export const requestConfig: RequestConfig = {
   baseURL: isDev ? BACKEND_HOST_LOCAL : BACKEND_HOST_PROD,
   withCredentials: true,
+
+  // 处理列表请求参数
+  paramsSerializer: (params) => {
+    return qs.stringify(params, {
+      arrayFormat: 'repeat',
+    });
+  },
 
   // 请求拦截器
   requestInterceptors: [
