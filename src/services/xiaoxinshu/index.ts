@@ -5,10 +5,12 @@
 import * as artArticleCategoryController from "./artArticleCategoryController";
 import * as artArticleController from "./artArticleController";
 import * as artArticleTagController from "./artArticleTagController";
+import * as sysOssController from "./sysOssController";
 import * as sysUserController from "./sysUserController";
 export default {
   sysUserController,
-  artArticleController,
   artArticleTagController,
   artArticleCategoryController,
+  artArticleController,
+  sysOssController,
 };

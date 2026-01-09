@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { request } from "@umijs/max";
 
-/** 获取文章分类信息 GET /art/article/category/${param0} */
+/** 获取文章分类信息 GET /art/articleCategory/${param0} */
 export async function getArticleCategory(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getArticleCategoryParams,
@@ -10,7 +10,7 @@ export async function getArticleCategory(
 ) {
   const { id: param0, ...queryParams } = params;
   return request<API.BaseResponseArtArticleCategoryVo>(
-    `/art/article/category/${param0}`,
+    `/art/articleCategory/${param0}`,
     {
       method: "GET",
       params: { ...queryParams },
@@ -19,26 +19,26 @@ export async function getArticleCategory(
   );
 }
 
-/** 删除文章分类信息（仅管理员） DELETE /art/article/category/${param0} */
+/** 删除文章分类信息（仅管理员） DELETE /art/articleCategory/${param0} */
 export async function deleteArticleCategory(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.deleteArticleCategoryParams,
   options?: { [key: string]: any }
 ) {
   const { id: param0, ...queryParams } = params;
-  return request<API.BaseResponseBoolean>(`/art/article/category/${param0}`, {
+  return request<API.BaseResponseBoolean>(`/art/articleCategory/${param0}`, {
     method: "DELETE",
     params: { ...queryParams },
     ...(options || {}),
   });
 }
 
-/** 创建文章分类信息（仅管理员） POST /art/article/category/create */
+/** 创建文章分类信息（仅管理员） POST /art/articleCategory/create */
 export async function createArticleCategory(
   body: API.ArtArticleCategoryCreateRequest,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponseLong>("/art/article/category/create", {
+  return request<API.BaseResponseLong>("/art/articleCategory/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -48,14 +48,14 @@ export async function createArticleCategory(
   });
 }
 
-/** 获取文章分类信息列表 GET /art/article/category/list */
+/** 获取文章分类信息列表 GET /art/articleCategory/list */
 export async function listArticleCategory(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.listArticleCategoryParams,
   options?: { [key: string]: any }
 ) {
   return request<API.BaseResponseListArtArticleCategoryVo>(
-    "/art/article/category/list",
+    "/art/articleCategory/list",
     {
       method: "GET",
       params: {
@@ -68,14 +68,14 @@ export async function listArticleCategory(
   );
 }
 
-/** 分页获取文章分类信息 GET /art/article/category/page */
+/** 分页获取文章分类信息 GET /art/articleCategory/page */
 export async function listArticleCategoryPage(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.listArticleCategoryPageParams,
   options?: { [key: string]: any }
 ) {
   return request<API.BaseResponsePageArtArticleCategoryVo>(
-    "/art/article/category/page",
+    "/art/articleCategory/page",
     {
       method: "GET",
       params: {
@@ -90,12 +90,12 @@ export async function listArticleCategoryPage(
   );
 }
 
-/** 更新文章分类信息（仅管理员） PUT /art/article/category/update */
+/** 更新文章分类信息（仅管理员） PUT /art/articleCategory/update */
 export async function updateArticleCategory(
   body: API.ArtArticleCategoryUpdateRequest,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponseBoolean>("/art/article/category/update", {
+  return request<API.BaseResponseBoolean>("/art/articleCategory/update", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

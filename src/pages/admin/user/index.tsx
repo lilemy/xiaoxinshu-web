@@ -1,12 +1,33 @@
 import React, {useRef, useState} from 'react';
 import {ActionType, PageContainer, ProColumns, ProTable} from '@ant-design/pro-components';
-import {Button, message, Popconfirm, Space, Typography} from 'antd';
-import {PlusOutlined} from '@ant-design/icons';
+import {Button, GetProp, message, Popconfirm, Space, Typography, Upload, UploadProps} from 'antd';
+import {LoadingOutlined, PlusOutlined} from '@ant-design/icons';
 import CreateForm from "@/pages/admin/user/components/CreateForm";
 import UpdateForm from "@/pages/admin/user/components/UpdateForm";
 import {deleteUser, listUserByAdminPage} from "@/services/xiaoxinshu/sysUserController";
+import {uploadFile} from "@/services/xiaoxinshu/sysOssController";
+
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+
+/**
+ * 图片上传前校验
+ * @param file 图片
+ */
+const beforeUpload = (file: FileType) => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('只能上传 JPG/PNG 文件!').then();
+  }
+  const isLt2M = file.size / 1024 / 1024 < 5;
+  if (!isLt2M) {
+    message.error('图片大小不能超过 5MB!').then();
+  }
+  return isJpgOrPng && isLt2M;
+};
+
 
 const SysUserTableList: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   // 新建窗口的弹窗
   const [createModalOpen, handleCreateModalOpen] = useState<boolean>(false);
   // 更新窗口的弹窗
@@ -14,6 +35,8 @@ const SysUserTableList: React.FC = () => {
   const actionRef = useRef<ActionType>(null);
   // 当前选中用户
   const [currentRow, setCurrentRow] = useState<API.SysUserByAdminVo>();
+  // 用于控制表单内图片的预览显示
+  const [imageUrl, setImageUrl] = useState<string>();
 
   /**
    * @zh-CN 删除用户
@@ -58,6 +81,60 @@ const SysUserTableList: React.FC = () => {
       },
       hideInSearch: true,
       width: 80,
+      renderFormItem: (_, {}, form) => {
+        const value = form.getFieldValue('userAvatar');
+        return (
+          <Upload
+            fileList={
+              value
+                ? [{
+                  uid: '-1',
+                  name: 'avatar.png',
+                  status: 'done',
+                  url: value,
+                }]
+                : []
+            }
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            beforeUpload={beforeUpload}
+            customRequest={async (options) => {
+              const {file, onSuccess, onError} = options;
+              try {
+                setLoading(true);
+                const res = await uploadFile({prefix: 'avatar'}, file as File);
+                if (res.code === 0 && res.data) {
+                  const url = res.data;
+                  // 将结果同步到 ProForm 表单字段中
+                  form.setFieldValue('userAvatar', url);
+                  // 通知组件上传成功
+                  onSuccess?.(res.data);
+                  // 更新本地预览状态
+                  setImageUrl(res.data);
+                } else {
+                  onError?.(new Error(res.message));
+                  message.error("上传失败：" + res.message);
+                }
+              } catch (error) {
+                onError?.(error as any);
+              } finally {
+                setLoading(false);
+              }
+            }}
+          >
+            {imageUrl ? (
+              <img draggable={false} src={imageUrl} alt="avatar" style={{width: '100%'}}/>
+            ) : (
+              <button style={{border: 0, background: 'none'}} type="button">
+                {loading ? <LoadingOutlined/> : <PlusOutlined/>}
+                <div style={{marginTop: 8}}>上传头像</div>
+              </button>
+            )}
+          </Upload>
+        )
+      }
     },
     {
       title: '简介',
@@ -155,6 +232,7 @@ const SysUserTableList: React.FC = () => {
             key="config"
             onClick={() => {
               setCurrentRow(record);
+              setImageUrl(record.userAvatar)
               handleUpdateModalOpen(true);
             }}
           >
@@ -198,6 +276,7 @@ const SysUserTableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
+              setImageUrl('');
               handleCreateModalOpen(true);
             }}
           >

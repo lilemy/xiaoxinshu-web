@@ -52,36 +52,14 @@ export async function listArticleArchivePage(
   );
 }
 
-/** 根据文章分类分页获取文章信息 GET /art/article/byCategory/page */
+/** 根据文章分类分页获取文章信息 GET /art/article/category/page */
 export async function listArticleByCategoryPage(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.listArticleByCategoryPageParams,
   options?: { [key: string]: any }
 ) {
   return request<API.BaseResponsePageArtArticleByCategoryVo>(
-    "/art/article/byCategory/page",
-    {
-      method: "GET",
-      params: {
-        ...params,
-        req: undefined,
-        ...params["req"],
-        pageQuery: undefined,
-        ...params["pageQuery"],
-      },
-      ...(options || {}),
-    }
-  );
-}
-
-/** 根据文章标签分页获取文章信息 GET /art/article/byTag/page */
-export async function listArticleByTagPage(
-  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.listArticleByTagPageParams,
-  options?: { [key: string]: any }
-) {
-  return request<API.BaseResponsePageArtArticleByTagVo>(
-    "/art/article/byTag/page",
+    "/art/article/category/page",
     {
       method: "GET",
       params: {
@@ -111,6 +89,23 @@ export async function createArticle(
   });
 }
 
+/** 获取文章详情信息 GET /art/article/detail/${param0} */
+export async function getArticleDetail(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getArticleDetailParams,
+  options?: { [key: string]: any }
+) {
+  const { id: param0, ...queryParams } = params;
+  return request<API.BaseResponseArtArticleDetailVo>(
+    `/art/article/detail/${param0}`,
+    {
+      method: "GET",
+      params: { ...queryParams },
+      ...(options || {}),
+    }
+  );
+}
+
 /** 分页获取文章信息 GET /art/article/page */
 export async function listArticlePage(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
@@ -128,6 +123,28 @@ export async function listArticlePage(
     },
     ...(options || {}),
   });
+}
+
+/** 根据文章标签分页获取文章信息 GET /art/article/tag/page */
+export async function listArticleByTagPage(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.listArticleByTagPageParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponsePageArtArticleByTagVo>(
+    "/art/article/tag/page",
+    {
+      method: "GET",
+      params: {
+        ...params,
+        req: undefined,
+        ...params["req"],
+        pageQuery: undefined,
+        ...params["pageQuery"],
+      },
+      ...(options || {}),
+    }
+  );
 }
 
 /** 更新文章信息 PUT /art/article/update */

@@ -102,6 +102,13 @@ declare namespace API {
     sort: number;
   };
 
+  type ArtArticleCategoryNameVo = {
+    /** id */
+    id?: number;
+    /** 分类名称 */
+    name?: string;
+  };
+
   type ArtArticleCategoryQueryRequest = {
     /** 分类名称 */
     name?: string;
@@ -139,9 +146,44 @@ declare namespace API {
     /** 文章内容 */
     content: string;
     /** 文章分类 id */
-    categoryIds: number[];
+    categoryIdList: number[];
     /** 文章标签 */
-    tags: string[];
+    tagIdList: string[];
+  };
+
+  type ArtArticleDetailVo = {
+    /** id */
+    id?: number;
+    /** 文章标题 */
+    title?: string;
+    /** 文章封面 */
+    cover?: string;
+    /** 文章摘要 */
+    summary?: string;
+    /** 文章内容 */
+    content?: string;
+    user?: SysUserVo;
+    /** 编辑时间 */
+    editTime?: string;
+    /** 创建时间 */
+    createTime?: string;
+    /** 更新时间 */
+    updateTime?: string;
+    /** 阅读次数 */
+    readNum?: number;
+    /** 分类列表 */
+    categoryList?: ArtArticleCategoryNameVo[];
+    /** 标签列表 */
+    tagList?: ArtArticleTagNameVo[];
+    preArticle?: ArtArticleNameVo;
+    nextArticle?: ArtArticleNameVo;
+  };
+
+  type ArtArticleNameVo = {
+    /** id */
+    id?: number;
+    /** 文章标题 */
+    title?: string;
   };
 
   type ArtArticleQueryRequest = {
@@ -158,6 +200,13 @@ declare namespace API {
   type ArtArticleTagCreateRequest = {
     /** 标签名称 */
     name: string;
+  };
+
+  type ArtArticleTagNameVo = {
+    /** id */
+    id?: number;
+    /** 标签名称 */
+    name?: string;
   };
 
   type ArtArticleTagQueryRequest = {
@@ -195,9 +244,9 @@ declare namespace API {
     /** 文章内容 */
     content: string;
     /** 文章分类 id */
-    categoryIds: number[];
+    categoryIdList: number[];
     /** 文章标签 */
-    tags: string[];
+    tagIdList: string[];
   };
 
   type ArtArticleVo = {
@@ -222,11 +271,11 @@ declare namespace API {
     /** 阅读次数 */
     readNum?: number;
     /** 分类列表 */
-    categoryList?: ArtArticleCategoryVo[];
+    categoryList?: ArtArticleCategoryNameVo[];
     /** 分类 id 列表 */
     categoryIdList?: number[];
     /** 标签列表 */
-    tagList?: ArtArticleTagVo[];
+    tagList?: ArtArticleTagNameVo[];
     /** 标签 id 列表 */
     tagIdList?: number[];
   };
@@ -235,6 +284,14 @@ declare namespace API {
     /** 响应状态码 */
     code?: number;
     data?: ArtArticleCategoryVo;
+    /** 响应信息 */
+    message?: string;
+  };
+
+  type BaseResponseArtArticleDetailVo = {
+    /** 响应状态码 */
+    code?: number;
+    data?: ArtArticleDetailVo;
     /** 响应信息 */
     message?: string;
   };
@@ -347,6 +404,15 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseString = {
+    /** 响应状态码 */
+    code?: number;
+    /** 响应数据 */
+    data?: string;
+    /** 响应信息 */
+    message?: string;
+  };
+
   type BaseResponseSysLoginUserVo = {
     /** 响应状态码 */
     code?: number;
@@ -388,6 +454,10 @@ declare namespace API {
   };
 
   type getArticleCategoryParams = {
+    id: number;
+  };
+
+  type getArticleDetailParams = {
     id: number;
   };
 
@@ -722,5 +792,9 @@ declare namespace API {
     userBirthday?: string;
     /** 用户角色(0用户 1管理员) */
     userRole?: number;
+  };
+
+  type uploadFileParams = {
+    prefix: string;
   };
 }
