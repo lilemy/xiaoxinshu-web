@@ -1,21 +1,43 @@
 import React, {useRef, useState} from 'react';
 import {ActionType, PageContainer, ProColumns, ProTable} from '@ant-design/pro-components';
-import {Button, message, Popconfirm, Space, Tag, Typography} from 'antd';
+import {Button, Image, message, Popconfirm, Space, Tag, Typography} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 import CreateForm from "@/pages/admin/article/components/CreateForm";
 import UpdateForm from "@/pages/admin/article/components/UpdateForm";
-import {deleteArticle, listArticlePage} from "@/services/xiaoxinshu/artArticleController";
+import {deleteArticle, getArticleDetail, listArticlePage} from "@/services/xiaoxinshu/artArticleController";
 import {listArticleCategory} from "@/services/xiaoxinshu/artArticleCategoryController";
 import {listArticleTag} from "@/services/xiaoxinshu/artArticleTagController";
+import DetailForm from "@/pages/admin/article/components/DetailForm";
+import {history} from "@@/exports";
 
 const ArtArticleTableList: React.FC = () => {
   // 新建窗口的弹窗
   const [createModalOpen, handleCreateModalOpen] = useState<boolean>(false);
   // 更新窗口的弹窗
   const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
+  // 详情窗口的弹窗
+  const [detailModalOpen, handleDetailModalOpen] = useState<boolean>(false);
   const actionRef = useRef<ActionType>(null);
   // 当前选中文章
   const [currentRow, setCurrentRow] = useState<API.ArtArticleVo>();
+  // 文章详情数据
+  const [articleDetail, setArticleDetail] = useState<API.ArtArticleDetailVo>();
+
+  /**
+   * @zh-CN 获取文章
+   */
+  const loadDetail = async (id: number) => {
+    if (!id) {
+      message.error('文章不存在');
+      return;
+    }
+    try {
+      const data = await getArticleDetail({id: id});
+      setArticleDetail(data.data);
+    } catch (error: any) {
+      message.error('获取详情失败' + error.message);
+    }
+  };
 
   /**
    * @zh-CN 删除文章
@@ -104,21 +126,26 @@ const ArtArticleTableList: React.FC = () => {
     {
       title: '文章摘要',
       dataIndex: 'summary',
-      valueType: 'text',
+      valueType: 'textarea',
       hideInSearch: true,
     },
     {
       title: '文章封面',
       dataIndex: 'cover',
       valueType: 'image',
+      width: 180,
       hideInSearch: true,
-    },
-    {
-      title: '文章内容',
-      dataIndex: 'content',
-      valueType: 'text',
-      hideInSearch: true,
-      hideInTable: true,
+      render: (_, record) => (
+        <div>
+          {record.cover ?
+            <Image
+              src={record.cover}
+              width={150}
+              style={{borderRadius: '8px', objectFit: 'cover'}}
+              placeholder={true}
+            /> : <div>-</div>}
+        </div>
+      ),
     },
     {
       title: '编辑时间',
@@ -127,6 +154,7 @@ const ArtArticleTableList: React.FC = () => {
       valueType: 'dateTime',
       hideInSearch: true,
       hideInForm: true,
+      width: 160,
     },
     {
       title: '创建时间',
@@ -135,6 +163,7 @@ const ArtArticleTableList: React.FC = () => {
       valueType: 'dateTime',
       hideInSearch: true,
       hideInForm: true,
+      width: 160,
     },
     {
       title: '更新时间',
@@ -143,6 +172,7 @@ const ArtArticleTableList: React.FC = () => {
       valueType: 'dateTime',
       hideInSearch: true,
       hideInForm: true,
+      width: 160,
     },
     {
       title: '操作',
@@ -153,6 +183,18 @@ const ArtArticleTableList: React.FC = () => {
         <Space size={'middle'}>
           <Typography.Link
             key="config"
+            onClick={() => {
+              setCurrentRow(record);
+              loadDetail(record.id || 0).then(() => {
+                handleDetailModalOpen(true);
+              })
+            }}
+          >
+            详情
+          </Typography.Link>
+          <Typography.Link
+            key="config"
+            type="warning"
             onClick={() => {
               setCurrentRow(record);
               handleUpdateModalOpen(true);
@@ -167,7 +209,7 @@ const ArtArticleTableList: React.FC = () => {
               actionRef.current?.reload();
             }}
             onCancel={() => {
-
+              actionRef.current?.reload();
             }}
             okText="确定"
             cancelText="取消"
@@ -198,7 +240,7 @@ const ArtArticleTableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              handleCreateModalOpen(true);
+              history.push('/add/article')
             }}
           >
             <PlusOutlined/> 新建
@@ -251,6 +293,13 @@ const ArtArticleTableList: React.FC = () => {
         }}
         onCancel={() => {
           handleUpdateModalOpen(false);
+        }}
+      />
+      <DetailForm
+        articleDetail={articleDetail}
+        modalVisible={detailModalOpen}
+        onCancel={() => {
+          handleDetailModalOpen(false);
         }}
       />
     </PageContainer>

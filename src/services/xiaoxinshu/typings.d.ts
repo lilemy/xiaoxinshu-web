@@ -437,6 +437,15 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseVoid = {
+    /** 响应状态码 */
+    code?: number;
+    /** 响应数据 */
+    data?: Record<string, any>;
+    /** 响应信息 */
+    message?: string;
+  };
+
   type deleteArticleCategoryParams = {
     id: number;
   };
@@ -447,6 +456,10 @@ declare namespace API {
 
   type deleteArticleTagParams = {
     id: number;
+  };
+
+  type deleteFileParams = {
+    url: string;
   };
 
   type deleteUserParams = {
