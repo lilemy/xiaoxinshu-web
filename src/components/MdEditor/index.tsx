@@ -14,8 +14,20 @@ interface MdEditorProps {
   height?: number;
 }
 
+/**
+ * 自定义 markdown 编辑器
+ * @param value 文本内容
+ * @param onChange 文本内容改变回调
+ * @param height 高度
+ * @constructor
+ */
 const CustomMdEditor: React.FC<MdEditorProps> = ({value, onChange, height}) => {
 
+  /**
+   * 图片上传
+   * @param files 文件列表
+   * @param callback 回调
+   */
   const onUploadImg = async (files: File[], callback: (urls: string[]) => void) => {
     try {
       const uploadTasks = files.map(async (file) => {
@@ -29,7 +41,7 @@ const CustomMdEditor: React.FC<MdEditorProps> = ({value, onChange, height}) => {
     }
   };
 
-  // 3. 定义工具栏的展示顺序，'emoji' 是我们自定义的 key
+  // 定义工具栏的展示顺序
   const toolbars: ToolbarNames[] = [
     'bold',
     'underline',
@@ -49,7 +61,6 @@ const CustomMdEditor: React.FC<MdEditorProps> = ({value, onChange, height}) => {
     'link',
     'image',
     'table',
-    'mermaid',
     'katex',
     0, // 表情
     '-',

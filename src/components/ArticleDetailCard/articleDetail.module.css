@@ -1,0 +1,220 @@
+.articleContent {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+}
+
+.articleContent :global(h1),
+.articleContent :global(h2),
+.articleContent :global(h3),
+.articleContent :global(h4),
+.articleContent :global(h5),
+.articleContent :global(h6) {
+  color: #292525;
+  line-height: 150%;
+  font-family: PingFang SC, Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif;
+}
+
+.articleContent :global(h2) {
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 24px;
+  margin-top: 40px;
+  margin-bottom: 26px;
+  padding-bottom: 15px;
+}
+
+.articleContent :global(h3) {
+  font-size: 20px;
+  margin-top: 40px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.articleContent :global(h4) {
+  font-size: 18px;
+  margin-top: 30px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.articleContent :global(h5) {
+  font-size: 16px;
+  margin-top: 30px;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.articleContent :global(h6) {
+  font-size: 16px;
+  margin-top: 30px;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+/* p 段落样式 */
+.articleContent :global(p) {
+  letter-spacing: 1px;
+  margin: 0 0 20px;
+  line-height: 30px;
+  color: #4c4e4d;
+  font-weight: 400;
+  word-break: normal;
+  word-wrap: break-word;
+  font-family: -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Microsoft Yahei, Arial, sans-serif;
+}
+
+/* blockquote 引用样式 */
+.articleContent :global(blockquote) {
+  border-left: 2.3px solid rgb(52, 152, 219);
+  quotes: none;
+  background: rgb(236, 240, 241);
+  color: #777;
+  font-size: 16px;
+  margin-bottom: 20px;
+  padding: 24px;
+}
+
+/* 设置 blockquote 中最后一个 p 标签的 margin-bottom 为 0 */
+.articleContent :global(blockquote p:last-child) {
+  margin-bottom: 0;
+}
+
+/* 斜体样式 */
+.articleContent :global(em) {
+  color: #c849ff;
+}
+
+/* 超链接样式 */
+.articleContent :global(a) {
+  color: #167bc2;
+}
+
+.articleContent :global(a:hover) {
+  color: #4ae16a;
+  text-decoration: underline;
+}
+
+/* ul 样式 */
+.articleContent :global(ul) {
+  padding-left: 2rem;
+}
+
+.articleContent :global(> ul) {
+  margin-bottom: 20px;
+}
+
+.articleContent :global(ul li) {
+  list-style-type: disc;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 16px;
+}
+
+.articleContent :global(ul li p) {
+  margin-bottom: 0 !important;
+}
+
+.articleContent :global(ul ul li) {
+  list-style-type: square;
+}
+
+/* ol 样式 */
+.articleContent :global(ol) {
+  list-style-type: decimal;
+  padding-left: 2rem;
+}
+
+/* 图片样式 */
+.articleContent :global(img) {
+  max-width: 100%;
+  overflow: hidden;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+.articleContent :global(img:hover),
+.articleContent :global(img:focus) {
+  box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, .15);
+}
+
+/* 图片描述文字 */
+.articleContent :global(.image-caption) {
+  min-width: 20%;
+  max-width: 80%;
+  min-height: 43px;
+  display: block;
+  padding: 10px;
+  margin: 0 auto;
+  font-size: 13px;
+  color: #999;
+  text-align: center;
+}
+
+/* code 样式 */
+.articleContent :global(code:not(pre code)) {
+  padding: 2px 4px;
+  margin: 0 2px;
+  font-size: 95% !important;
+  border-radius: 4px;
+  color: rgb(41, 128, 185);
+  background-color: rgba(27, 31, 35, 0.05);
+  font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
+}
+
+/* 表格样式 */
+.articleContent :global(table) {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.articleContent :global(table tr) {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.articleContent :global(table th) {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+.articleContent :global(table td) {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+.articleContent :global(table tr:nth-child(2n)) {
+  background-color: #f6f8fa;
+}
+
+/* hr 横线 */
+.articleContent :global(hr) {
+  margin-bottom: 20px;
+}
+
+/* pre code 样式 */
+.articleContent :global(code) {
+  font-size: 98%;
+}
+
+.articleContent :global(pre) {
+  margin-bottom: 20px;
+}
+
+.articleContent :global(pre code.hljs) {
+  padding: 2rem 1rem 0.7rem;
+  border-radius: 6px;
+}
+
+.articleContent :global(pre:before) {
+  background: #fc625d;
+  border-radius: 50%;
+  box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
+  content: ' ';
+  height: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  position: absolute;
+  width: 10px;
+}

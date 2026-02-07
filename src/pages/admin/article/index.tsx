@@ -62,7 +62,7 @@ const ArtArticleTableList: React.FC = () => {
     }
   };
 
-  const columns: ProColumns<API.ArtArticleVo>[] = [
+  const columns: ProColumns<API.ArtArticleVo | API.ArtArticleDetailVo>[] = [
     {
       title: '文章标题',
       dataIndex: 'title',
@@ -95,7 +95,7 @@ const ArtArticleTableList: React.FC = () => {
       title: '文章标签',
       dataIndex: 'tagIdList',
       render: (_, record) => (
-        <Space>
+        <Space wrap>
           {record.tagList?.map((item: any) => (
             <Tag color="blue" key={item.id}>
               {item.name}
@@ -182,9 +182,8 @@ const ArtArticleTableList: React.FC = () => {
       render: (_, record) => (
         <Space size={'middle'}>
           <Typography.Link
-            key="config"
+            key="detail"
             onClick={() => {
-              setCurrentRow(record);
               loadDetail(record.id || 0).then(() => {
                 handleDetailModalOpen(true);
               })

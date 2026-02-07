@@ -4,7 +4,6 @@ import {history} from '@umijs/max';
 import {requestConfig} from './requestConfig';
 import defaultSettings from "../config/defaultSettings";
 import {getLoginUser} from "@/services/xiaoxinshu/sysUserController";
-import {message} from "antd";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -25,8 +24,8 @@ export async function getInitialState(): Promise<InitialState> {
       const res = await getLoginUser();
       initialState.currentUser = res.data;
     } catch (e: any) {
-      message.error(e.message);
-      history.push(loginPath);
+      /*      message.error(e.message);
+            history.push(loginPath);*/
     }
   }
   return initialState;
@@ -42,13 +41,6 @@ export const layout: RunTimeLayoutConfig = ({initialState}) => {
       },
     },
     footerRender: () => <Footer/>,
-    onPageChange: () => {
-      const {location} = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
-    },
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,

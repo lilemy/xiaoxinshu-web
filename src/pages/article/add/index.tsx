@@ -4,16 +4,16 @@ import {ProForm} from "@ant-design/pro-form";
 import {ProFormInstance, ProFormSelect, ProFormText} from '@ant-design/pro-components';
 import UploadImage from "@/components/UploadImage";
 import {listArticleCategory} from "@/services/xiaoxinshu/artArticleCategoryController";
-import {createArticle} from "@/services/xiaoxinshu/artArticleController"; // 修正了方法名引用
+import {createArticle} from "@/services/xiaoxinshu/artArticleController";
 import {listArticleTag} from "@/services/xiaoxinshu/artArticleTagController";
 import MdEditor from "@/components/MdEditor";
 import {Footer} from "@/components";
 
 /**
- * 新增文章
+ * 新增文章页面
  * @constructor
  */
-const AddArticle: React.FC = () => {
+const AddArticlePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const formRef = useRef<ProFormInstance | null>(null);
   const [categoryList, setCategoryList] = useState<API.ArtArticleCategoryVo[]>([]);
@@ -78,7 +78,6 @@ const AddArticle: React.FC = () => {
     <div style={{padding: '24px', background: '#f5f7fa', minHeight: '100vh'}}>
       <div className="max-width-content" style={{margin: '0 auto'}}>
         <ProForm<API.ArtArticleCreateRequest>
-          loading={loading}
           formRef={formRef}
           onFinish={async (value) => {
             console.log('提交表单', value)
@@ -102,7 +101,11 @@ const AddArticle: React.FC = () => {
           <Row gutter={24}>
             {/* 左侧主要编辑区 */}
             <Col xs={24} lg={17}>
-              <Card title="基础信息" style={{borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}>
+              <Card
+                loading={loading}
+                title="基础信息"
+                style={{borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}
+              >
                 {/* 标题输入框 */}
                 <ProFormText
                   name="title"
@@ -135,7 +138,12 @@ const AddArticle: React.FC = () => {
             {/* 右侧配置区 */}
             <Col xs={24} lg={7}>
               <Space orientation="vertical" size="middle" style={{width: '100%'}}>
-                <Card title="发布设置" variant="borderless" style={{borderRadius: 8}}>
+                <Card
+                  loading={loading}
+                  title="发布设置"
+                  variant="borderless"
+                  style={{borderRadius: 8}}
+                >
                   <ProForm.Item
                     label="文章封面"
                     name="cover"
@@ -150,12 +158,9 @@ const AddArticle: React.FC = () => {
                     }}>
                       <UploadImage
                         prefix="article"
-                        onLoadingChange={(state) => {
-                          setLoading(state);
-                        }}
                         // 上传成功后更新表单值
                         onChange={(url) => {
-                          formRef.current?.setFieldsValue({ cover: url });
+                          formRef.current?.setFieldsValue({cover: url});
                         }}
                       />
                     </div>
@@ -179,7 +184,12 @@ const AddArticle: React.FC = () => {
                   />
                 </Card>
 
-                <Card title="创作说明" variant="borderless" style={{borderRadius: 8, fontSize: 13, color: '#666'}}>
+                <Card
+                  loading={loading}
+                  title="创作说明"
+                  variant="borderless"
+                  style={{borderRadius: 8, fontSize: 13, color: '#666'}}
+                >
                   <ul style={{paddingLeft: 18, lineHeight: '24px'}}>
                     <li>请勿发布违反社区规范的内容。</li>
                     <li>优质的封面和摘要能显著提升推荐量。</li>
@@ -198,4 +208,4 @@ const AddArticle: React.FC = () => {
   );
 };
 
-export default AddArticle;
+export default AddArticlePage;

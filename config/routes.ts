@@ -8,13 +8,19 @@ export default [
     ],
   },
   {path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome'},
-  {path: '/article', name: '文章', icon: 'read', component: './article'},
+  {path: '/article', name: '文章', icon: 'read', component: './article', footerRender: false},
   {
     path: '/add/article',
     name: '创建文章',
     component: './article/add',
     hideInMenu: true,
     footerRender: false
+  },
+  {
+    path: '/article/:articleId',
+    name: '文章详情',
+    component: './article/detail',
+    hideInMenu: true,
   },
   {
     path: '/admin',

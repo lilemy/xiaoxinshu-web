@@ -9,7 +9,6 @@ interface UploadImageProps {
   prefix: string;
   value?: string;
   onChange?: (url?: string) => void;
-  onLoadingChange?: (loading: boolean) => void;
   maxSize?: number; // MB
 }
 
@@ -18,19 +17,12 @@ interface UploadImageProps {
  * @param prefix 文件前缀
  * @param value 图片地址
  * @param onChange 图片上传成功后的回调
- * @param onLoadingChange loading 状态的回调
  * @param maxSize 图片大小限制
  * @constructor
  */
-const UploadImage: React.FC<UploadImageProps> = ({prefix, value, onChange, onLoadingChange, maxSize = 5}) => {
+const UploadImage: React.FC<UploadImageProps> = ({prefix, value, onChange,  maxSize = 5}) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
-
-  // 封装内部 loading，同时触发外部回调
-  const setInternalLoading = (state: boolean) => {
-    setLoading(state);
-    onLoadingChange?.(state);
-  };
 
   useEffect(() => {
     setImageUrl(value);
@@ -64,7 +56,7 @@ const UploadImage: React.FC<UploadImageProps> = ({prefix, value, onChange, onLoa
    */
   const customUpload: UploadProps['customRequest'] = async ({file, onSuccess, onError}) => {
     try {
-      setInternalLoading(true);
+      setLoading(true);
       // 如果已经存在旧图片，先删除旧图片
       if (imageUrl) {
         try {
@@ -80,11 +72,11 @@ const UploadImage: React.FC<UploadImageProps> = ({prefix, value, onChange, onLoa
       setImageUrl(url);
       onChange?.(url);
       onSuccess?.({}, new XMLHttpRequest());
-    } catch (e) {
-      message.error('上传失败');
+    } catch (e: any) {
+      message.error('上传失败，' + e.message);
       onError?.(e as any);
     } finally {
-      setInternalLoading(false);
+      setLoading(false);
     }
   };
 
