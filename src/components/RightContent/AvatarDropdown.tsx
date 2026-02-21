@@ -1,4 +1,4 @@
-import {LogoutOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
+import {EditOutlined, LogoutOutlined, UserOutlined} from '@ant-design/icons';
 import {history, useModel} from '@umijs/max';
 import {Avatar, Button, Space} from 'antd';
 import {stringify} from 'querystring';
@@ -14,7 +14,7 @@ export type GlobalHeaderRightProps = {
   children?: React.ReactNode;
 };
 
-export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({menu}) => {
+export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
   /**
    * 退出登录，并且将当前的 url 保存
    */
@@ -66,23 +66,16 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({menu}) => {
   }
 
   const menuItems = [
-    ...(menu
-      ? [
-        {
-          key: 'center',
-          icon: <UserOutlined/>,
-          label: '个人中心',
-        },
-        {
-          key: 'settings',
-          icon: <SettingOutlined/>,
-          label: '个人设置',
-        },
-        {
-          type: 'divider' as const,
-        },
-      ]
-      : []),
+    {
+      key: 'center',
+      icon: <UserOutlined/>,
+      label: '个人中心',
+    },
+    {
+      key: 'setting',
+      icon: <EditOutlined/>,
+      label: '个人设置',
+    },
     {
       key: 'logout',
       icon: <LogoutOutlined/>,
@@ -99,8 +92,11 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({menu}) => {
       }}
     >
       <Space>
-        {currentUser?.userAvatar ? (<Avatar size="small" src={currentUser?.userAvatar}/>) :
-          (<Avatar size="small" icon={<UserOutlined/>}/>)}
+        {currentUser?.userAvatar ? (
+          <Avatar size="small" src={currentUser?.userAvatar}/>
+        ) : (
+          <Avatar size="small" icon={<UserOutlined/>}/>
+        )}
         <span className="anticon">{currentUser?.userName ?? '未命名'}</span>
       </Space>
     </HeaderDropdown>

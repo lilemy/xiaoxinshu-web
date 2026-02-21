@@ -32,7 +32,7 @@ const ArtArticleTableList: React.FC = () => {
       return;
     }
     try {
-      const data = await getArticleDetail({id: id});
+      const data = await getArticleDetail({id: id, contentResultType: 1});
       setArticleDetail(data.data);
     } catch (error: any) {
       message.error('获取详情失败' + error.message);
@@ -86,7 +86,7 @@ const ArtArticleTableList: React.FC = () => {
             value: item.id,
           }));
         } catch (e: any) {
-          message.error("获取文章分类失败", e.message);
+          message.error("获取文章分类失败" + e.message);
           return [];
         }
       },
@@ -118,7 +118,7 @@ const ArtArticleTableList: React.FC = () => {
             value: item.id,
           }));
         } catch (e: any) {
-          message.error("获取文章标签失败", e.message);
+          message.error("获取文章标签失败" + e.message);
           return [];
         }
       },

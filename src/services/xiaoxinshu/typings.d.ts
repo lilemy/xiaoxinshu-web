@@ -472,10 +472,12 @@ declare namespace API {
 
   type getArticleDetailParams = {
     id: number;
+    contentResultType: number;
   };
 
   type getArticleParams = {
     id: number;
+    contentResultType: number;
   };
 
   type getArticleTagParams = {
@@ -512,6 +514,11 @@ declare namespace API {
 
   type listArticleCategoryParams = {
     req: ArtArticleCategoryQueryRequest;
+  };
+
+  type listArticlePageByUserParams = {
+    req: ArtArticleQueryRequest;
+    pageQuery: PageQuery;
   };
 
   type listArticlePageParams = {

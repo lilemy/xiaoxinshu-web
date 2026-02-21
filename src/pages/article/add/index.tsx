@@ -4,10 +4,11 @@ import {ProForm} from "@ant-design/pro-form";
 import {ProFormInstance, ProFormSelect, ProFormText} from '@ant-design/pro-components';
 import UploadImage from "@/components/UploadImage";
 import {listArticleCategory} from "@/services/xiaoxinshu/artArticleCategoryController";
-import {createArticle} from "@/services/xiaoxinshu/artArticleController";
+import {createArticle, getArticle, updateArticle} from "@/services/xiaoxinshu/artArticleController";
 import {listArticleTag} from "@/services/xiaoxinshu/artArticleTagController";
 import MdEditor from "@/components/MdEditor";
 import {Footer} from "@/components";
+import {history, Link, useParams} from "@@/exports";
 
 /**
  * 新增文章页面
@@ -18,21 +19,37 @@ const AddArticlePage: React.FC = () => {
   const formRef = useRef<ProFormInstance | null>(null);
   const [categoryList, setCategoryList] = useState<API.ArtArticleCategoryVo[]>([]);
   const [tagList, setTagList] = useState<API.ArtArticleTagVo[]>([]);
+  // 获取路由参数
+  const params = useParams();
+  const {articleId} = params;
 
   /**
-   * 文章新建提交表单
+   * 文章新建修改提交表单
    * @param value 表单数据
    */
-  const onSubmitFrom = async (value: API.ArtArticleCreateRequest) => {
+  const onSubmitFrom = async (value: API.ArtArticleCreateRequest | API.ArtArticleUpdateRequest) => {
     setLoading(true);
     try {
-      await createArticle(value)
-      message.success('新文章创建成功');
-      formRef.current?.resetFields();
+      if (articleId) {
+        await updateArticle({
+          id: articleId as any,
+          ...value
+        });
+        message.success('文章修改成功');
+        setTimeout(() => {
+          history.push(`/personal/article/${articleId}`);
+        }, 1000);
+      } else {
+        await createArticle(value);
+        message.success('新文章创建成功');
+        formRef.current?.resetFields();
+      }
     } catch (e: any) {
-      message.error('创建失败，' + e.message);
+      message.error(articleId ? '修改失败，' : '创建失败，' + e.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+
   };
 
   /**
@@ -77,10 +94,9 @@ const AddArticlePage: React.FC = () => {
   return (
     <div style={{padding: '24px', background: '#f5f7fa', minHeight: '100vh'}}>
       <div className="max-width-content" style={{margin: '0 auto'}}>
-        <ProForm<API.ArtArticleCreateRequest>
+        <ProForm<API.ArtArticleCreateRequest | API.ArtArticleUpdateRequest>
           formRef={formRef}
           onFinish={async (value) => {
-            console.log('提交表单', value)
             await onSubmitFrom(value);
           }}
           submitter={{
@@ -94,9 +110,30 @@ const AddArticlePage: React.FC = () => {
                 <Space>{dom[0]}{dom[1]}</Space>
               </div>
             ),
-            searchConfig: {submitText: '发布文章'}
+            searchConfig: {submitText: articleId ? '修改文章' : '发布文章'}
           }}
           layout="vertical"
+          request={async () => {
+            if (!articleId) {
+              return {} as API.ArtArticleUpdateRequest;
+            }
+            try {
+              const res = await getArticle({
+                id: articleId as any,
+                contentResultType: 2
+              });
+              const detail = res.data;
+              if (!detail) return {} as API.ArtArticleUpdateRequest;
+              return {
+                ...detail,
+                categoryIdList: detail.categoryList?.map((item: any) => item.id) || [],
+                tagIdList: detail.tagList?.map((item: any) => item.id) || [],
+              } as API.ArtArticleUpdateRequest;
+            } catch (e: any) {
+              message.error('获取详情失败');
+              return {} as API.ArtArticleUpdateRequest;
+            }
+          }}
         >
           <Row gutter={24}>
             {/* 左侧主要编辑区 */}
@@ -104,6 +141,7 @@ const AddArticlePage: React.FC = () => {
               <Card
                 loading={loading}
                 title="基础信息"
+                extra={articleId && <Link to={`/personal/article/${articleId}`}>返回详情</Link>}
                 style={{borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}
               >
                 {/* 标题输入框 */}
@@ -149,21 +187,13 @@ const AddArticlePage: React.FC = () => {
                     name="cover"
                     tooltip="推荐尺寸 4:3 或 16:9"
                   >
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      background: '#fafafa',
-                      borderRadius: 4,
-                      padding: '16px'
-                    }}>
-                      <UploadImage
-                        prefix="article"
-                        // 上传成功后更新表单值
-                        onChange={(url) => {
-                          formRef.current?.setFieldsValue({cover: url});
-                        }}
-                      />
-                    </div>
+                    <UploadImage
+                      prefix="article"
+                      // 上传成功后更新表单值
+                      onChange={(url) => {
+                        formRef.current?.setFieldsValue({cover: url});
+                      }}
+                    />
                   </ProForm.Item>
 
                   <ProFormSelect

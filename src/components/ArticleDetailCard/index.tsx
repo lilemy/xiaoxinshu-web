@@ -22,6 +22,13 @@ interface ArticleDetailCardProps {
   article?: API.ArtArticleDetailVo;
 
   /**
+   * 列表跳转地址
+   * 1 主页列表
+   * 2 个人列表
+   */
+  listJump?: number;
+
+  /**
    * 是否显示上下篇文章
    */
   showRelated?: boolean;
@@ -42,7 +49,7 @@ interface ArticleDetailCardProps {
  * @constructor
  */
 const ArticleDetailCard: React.FC<ArticleDetailCardProps> = (props) => {
-  const {article, showRelated = true, showRight = true, loading = false} = props;
+  const {article, listJump = 1, showRelated = true, showRight = true, loading = false} = props;
 
   /**
    * 数据加载时，显示骨架屏
@@ -97,7 +104,8 @@ const ArticleDetailCard: React.FC<ArticleDetailCardProps> = (props) => {
             <div>
               <Flex align="start" justify="space-between">
                 <Title level={1} style={{fontSize: '2.2rem', fontWeight: 700}}>{article.title}</Title>
-                <Link to="/article">返回列表</Link>
+                {listJump === 1 && <Link to={"/article"}>返回列表</Link>}
+                {listJump === 2 && <Link to={"/account/center"}>返回列表</Link>}
               </Flex>
               <Flex gap="middle" wrap="wrap" style={{marginBottom: 32, color: '#999'}}>
                 <Space size={4}>

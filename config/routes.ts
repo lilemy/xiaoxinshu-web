@@ -17,9 +17,34 @@ export default [
     footerRender: false
   },
   {
+    path: '/update/article/:articleId',
+    name: '修改文章',
+    component: './article/add',
+    hideInMenu: true,
+    footerRender: false
+  },
+  {
     path: '/article/:articleId',
     name: '文章详情',
     component: './article/detail',
+    hideInMenu: true,
+  },
+  {
+    path: '/personal/article/:articleId',
+    name: '文章详情',
+    component: './article/personal',
+    hideInMenu: true,
+  },
+  {
+    path: '/account/center',
+    name: '个人中心',
+    component: './account/center',
+    hideInMenu: true,
+  },
+  {
+    path: '/account/setting',
+    name: '个人设置',
+    component: './account/setting',
     hideInMenu: true,
   },
   {

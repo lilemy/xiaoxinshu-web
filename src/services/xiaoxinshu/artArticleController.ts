@@ -11,7 +11,9 @@ export async function getArticle(
   const { id: param0, ...queryParams } = params;
   return request<API.BaseResponseArtArticleVo>(`/art/article/${param0}`, {
     method: "GET",
-    params: { ...queryParams },
+    params: {
+      ...queryParams,
+    },
     ...(options || {}),
   });
 }
@@ -28,6 +30,28 @@ export async function deleteArticle(
     params: { ...queryParams },
     ...(options || {}),
   });
+}
+
+/** 分页获取个人文章信息 GET /art/article/account/page */
+export async function listArticlePageByUser(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.listArticlePageByUserParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponsePageArtArticleVo>(
+    "/art/article/account/page",
+    {
+      method: "GET",
+      params: {
+        ...params,
+        req: undefined,
+        ...params["req"],
+        pageQuery: undefined,
+        ...params["pageQuery"],
+      },
+      ...(options || {}),
+    }
+  );
 }
 
 /** 分页获取文章归档信息 GET /art/article/archive/page */
@@ -100,7 +124,9 @@ export async function getArticleDetail(
     `/art/article/detail/${param0}`,
     {
       method: "GET",
-      params: { ...queryParams },
+      params: {
+        ...queryParams,
+      },
       ...(options || {}),
     }
   );

@@ -1,15 +1,15 @@
-import {useParams} from "@@/exports";
 import React, {useEffect, useState} from "react";
+import {useParams} from "@@/exports";
 import {message} from "antd";
 import {getArticleDetail} from "@/services/xiaoxinshu/artArticleController";
 import ArticleDetailCard from "@/components/ArticleDetailCard";
-import ArticleFloatButton from "@/components/ArticleFloatButton";
 
 /**
- * 文章详情页面
+ * 个人文章详情
  * @constructor
  */
-const ArticleDetailPage: React.FC = () => {
+const ArticlePersonalPage: React.FC = () => {
+
   // 获取路由参数
   const params = useParams();
   const {articleId} = params;
@@ -43,14 +43,15 @@ const ArticleDetailPage: React.FC = () => {
 
   return (
     <div className="max-width-content">
-      <ArticleDetailCard article={articleDetail} loading={loading}/>
-      <ArticleFloatButton
-        id={articleDetail?.id}
-        preId={articleDetail?.preArticle?.id}
-        nextId={articleDetail?.nextArticle?.id}
+      <ArticleDetailCard
+        article={articleDetail}
+        listJump={2}
+        loading={loading}
+        showRelated={false}
+        showRight={false}
       />
     </div>
-  );
+  )
 }
 
-export default ArticleDetailPage;
+export default ArticlePersonalPage;

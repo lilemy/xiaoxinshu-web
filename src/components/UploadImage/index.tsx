@@ -62,13 +62,12 @@ const UploadImage: React.FC<UploadImageProps> = ({prefix, value, onChange,  maxS
         try {
           await deleteFile({url: imageUrl});
         } catch (err) {
-          console.error("旧图片删除失败", err);
+          console.error("旧图片删除失败"+ err);
         }
       }
       // 上传新图片
       const res = await uploadFile({prefix: prefix}, file as File);
       const url = res.data;
-      console.log('上传成功', res)
       setImageUrl(url);
       onChange?.(url);
       onSuccess?.({}, new XMLHttpRequest());
